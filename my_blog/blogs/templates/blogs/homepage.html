@@ -16,10 +16,14 @@
   </head>
   <body>
     <h1>Blog List</h1>
-    <input type="search" name="title" placeholder="Title">
-    <input type="search" name="abstract" placeholder="Abstract"><br>
-    <input type="search" name="publish_date" placeholder="Publish Date">
-    <input type="search" name="removal_date" placeholder="Removal Date"><br>
+    <form action="/search/" method="get">
+      <input type="search" name="title" placeholder="Title">
+      <input type="search" name="abstract" placeholder="Abstract"><br>
+      <input type="search" name="publish_date" placeholder="Publish Date">
+      <input type="search" name="removal_date" placeholder="Removal Date"><br>
+      <input type="submit" value="Search">
+    </form>
+    </br>
     <a href="/addblog/" class="btn btn-primary">Add New Post</a>
 
     <div class='container-fluid'>
