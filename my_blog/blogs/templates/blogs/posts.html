@@ -14,6 +14,7 @@
 				<td>{{blog.abstract}}</td>
 				<td>{{blog.publish_date|date:"Y-m-d"}}</td>
 				<td>{{blog.removal_date|date:"Y-m-d"}}</td>
+				<td><a href="{% url 'delete_blog' pk=blog.id %}"><i class="fa fa-trash">Delete</i></a></td>
 			</tr>
 		{% endfor %}
 	</table>

@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
 from .models import Blog
 
 def homepage(request):
@@ -17,3 +18,8 @@ def add_blog(request):
 
     else:
             return render(request,'blogs/add_blog.html')
+
+def delete_blog(request, pk=None):
+    post = Blog.objects.get(id = pk)
+    post.delete()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
