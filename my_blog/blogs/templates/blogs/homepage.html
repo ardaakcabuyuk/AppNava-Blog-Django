@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Blogs</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'blogs/css/bootstrap.min.css' %}" type = "text/css"/>
+  	<meta name="viewport" content = "width=device-width, initial-scale=1.0">
+
+  	<style type="text/css">
+  		html,
+  		body {
+  		  height:100%
+  		}
+  	</style>
+  </head>
+  <body>
+    <h1>Blog List</h1>
+    <input type="search" name="title" placeholder="Title">
+    <input type="search" name="abstract" placeholder="Abstract"><br>
+    <input type="search" name="publish_date" placeholder="Publish Date">
+    <input type="search" name="removal_date" placeholder="Removal Date"><br>
+    <a href="/addblog/" class="btn btn-primary">Add New Post</a>
+
+    <div class='container-fluid'>
+    <br><br>
+       {% block content %}
+       {% endblock %}
+    </div>
+  </body>
+</html>

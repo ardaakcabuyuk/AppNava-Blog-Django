@@ -1,0 +1,20 @@
+{% extends "blogs/homepage.html" %}
+
+{% block content %}
+	<table style="width=100%">
+		<tr>
+			<th>Title</th>
+			<th>Abstract</th>
+			<th>Publish Date</th>
+			<th>Removal Date</th>
+		</tr>
+		{% for blog in object_list %}
+			<tr>
+				<td><a href="/blogs/{{blog.id}}">{{blog.title}}</a></td>
+				<td>{{blog.abstract}}</td>
+				<td>{{blog.publish_date|date:"Y-m-d"}}</td>
+				<td>{{blog.removal_date|date:"Y-m-d"}}</td>
+			</tr>
+		{% endfor %}
+	</table>
+{% endblock %}

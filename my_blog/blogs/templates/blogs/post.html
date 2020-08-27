@@ -1,0 +1,8 @@
+{% extends "blogs/homepage.html" %}
+
+{% block content %}
+<h3>{{blog.title}}</h3>
+<h5>{{blog.abstract}}</h5>
+<h6>on {{blog.publish_date}}</h6>
+{{blog.body|safe|linebreaks}}
+{% endblock %}
