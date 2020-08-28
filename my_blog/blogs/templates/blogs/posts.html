@@ -16,12 +16,12 @@
 			</thead>
 			{% for blog in object_list %}
 				<tr>
-					<td scope="row"><a href="{% url 'edit_blog' pk=blog.id %}"><i class="fa fa-trash">Edit</i></a></td>
+					<td scope="row"><a href="{% url 'edit_blog' pk=blog.id %}"><i class='far fa-edit'</i></a></td>
 					<td><a href="/blogs/{{blog.id}}">{{blog.title}}</a></td>
 					<td>{{blog.abstract}}</td>
 					<td>{{blog.publish_date|date:"Y-m-d"}}</td>
 					<td>{{blog.removal_date|date:"Y-m-d"}}</td>
-					<td><a href="{% url 'delete_blog' pk=blog.id %}"><i class="fa fa-trash">Delete</i></a></td>
+					<td><a href="{% url 'delete_blog' pk=blog.id %}"><i class="fa fa-trash"></i></a></td>
 				</tr>
 			{% endfor %}
 		</table>

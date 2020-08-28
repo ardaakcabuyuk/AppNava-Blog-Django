@@ -2,9 +2,10 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Blogs</title>
+    <title>Homepage</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'blogs/css/bootstrap.min.css' %}" type = "text/css"/>
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
   	<meta name="viewport" content = "width=device-width, initial-scale=1.0">
 
   	<style type="text/css">
@@ -15,14 +16,13 @@
   	</style>
   </head>
   <body>
-    <h1 class="text-center">My Blog</h1>
+    <h2 class="text-center">My Blog</h1>
      <div class="card mx-auto" style="width: 56.5rem;">
         <div class="card-body">
           <form action="/search/" method="get">
             <div class="row justify-content-center">
               <div class="col"><input type="search" name="title" placeholder="Title" size="50"></div>
-              <div class="col"><input type="search" name="abstract" placeholder="Abstract" size="50"></div>
-              <div class="w-100"></div>
+              <div class="col"><input type="search" name="abstract" placeholder="Abstract" size="50"></div><br/><br/>
               <div class="col"><input type="search" name="publish_date" placeholder="Publish Date" size="50"></div>
               <div class="col"><input type="search" name="removal_date" placeholder="Removal Date" size="50"></div>
             </div>

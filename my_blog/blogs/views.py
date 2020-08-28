@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator
 from .models import Blog
+from datetime import datetime
 
 def homepage(request):
     return render(request, 'blogs/posts.html')
@@ -22,7 +23,8 @@ def add_blog(request):
 
 def delete_blog(request, pk=None):
     blog = Blog.objects.get(id=pk)
-    blog.delete()
+    blog.removal_date = datetime.now()
+    blog.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def edit_blog(request, pk=None):
