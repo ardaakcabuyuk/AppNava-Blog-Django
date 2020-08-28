@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
+from django.core.paginator import Paginator
 from .models import Blog
 
 def homepage(request):
@@ -43,7 +44,7 @@ def edit_blog(request, pk=None):
         return render(request, 'blogs/edit_blog.html', dict2)
 
 def search(request):
-    qs = Blog.objects.all()
+    qs = Blog.objects.all().order_by('-publish_date')
     title_query = request.GET.get("title")
     abstract_query = request.GET.get("abstract")
     publish_date_query = request.GET.get("publish_date")
@@ -60,7 +61,6 @@ def search(request):
 
     elif removal_date_query != '' and removal_date_query is not None:
         qs = qs.filter(removal_date__icontains=removal_date_query)
-
 
     context = {
         "queryset": qs

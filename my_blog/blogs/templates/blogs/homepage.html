@@ -15,17 +15,25 @@
   	</style>
   </head>
   <body>
-    <h1>Blog List</h1>
-    <form action="/search/" method="get">
-      <input type="search" name="title" placeholder="Title">
-      <input type="search" name="abstract" placeholder="Abstract"><br>
-      <input type="search" name="publish_date" placeholder="Publish Date">
-      <input type="search" name="removal_date" placeholder="Removal Date"><br>
-      <input type="submit" value="Search">
-    </form>
-    </br>
-    <a href="/addblog/" class="btn btn-primary">Add New Post</a>
-
+    <h1 class="text-center">My Blog</h1>
+     <div class="card mx-auto" style="width: 56.5rem;">
+        <div class="card-body">
+          <form action="/search/" method="get">
+            <div class="row justify-content-center">
+              <div class="col"><input type="search" name="title" placeholder="Title" size="50"></div>
+              <div class="col"><input type="search" name="abstract" placeholder="Abstract" size="50"></div>
+              <div class="w-100"></div>
+              <div class="col"><input type="search" name="publish_date" placeholder="Publish Date" size="50"></div>
+              <div class="col"><input type="search" name="removal_date" placeholder="Removal Date" size="50"></div>
+            </div>
+            </br>
+            <input type="submit" class="btn btn-primary" value="Search">
+            <input type="reset" class="btn btn-primary"  value="Clear">
+            <a href="/addblog/" class="btn btn-primary">Add New Post</a>
+          </form>
+          <br>
+        </div>
+      </div>
     <div class='container-fluid'>
     <br><br>
        {% block content %}

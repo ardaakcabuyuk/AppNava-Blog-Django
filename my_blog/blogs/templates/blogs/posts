@@ -3,18 +3,20 @@
 {% block content %}
 <div class="card mx-auto" style="width: 56.5rem;">
 	<div class="card-body">
-		<table style="width=100%">
-			<tr>
-				<th></th>
-				<th>Title</th>
-				<th>Abstract</th>
-				<th>Publish Date</th>
-				<th>Removal Date</th>
-				<th></th>
-			</tr>
-			{% for blog in queryset %}
+		<table class="table" style="width=100%">
+			<thead class="thead-light">
 				<tr>
-					<td><a href="{% url 'edit_blog' pk=blog.id %}"><i class="fa fa-trash">Edit</i></a></td>
+					<th></th>
+					<th scope="col">Title</th>
+					<th scope="col">Abstract</th>
+					<th scope="col">Publish Date</th>
+					<th scope="col">Removal Date</th>
+					<th></th>
+				</tr>
+			</thead>
+			{% for blog in object_list %}
+				<tr>
+					<td scope="row"><a href="{% url 'edit_blog' pk=blog.id %}"><i class="fa fa-trash">Edit</i></a></td>
 					<td><a href="/blogs/{{blog.id}}">{{blog.title}}</a></td>
 					<td>{{blog.abstract}}</td>
 					<td>{{blog.publish_date|date:"Y-m-d"}}</td>
