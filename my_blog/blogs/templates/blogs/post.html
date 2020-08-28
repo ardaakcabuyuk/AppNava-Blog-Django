@@ -1,8 +1,12 @@
 {% extends "blogs/homepage.html" %}
 
 {% block content %}
-<h3>{{blog.title}}</h3>
-<h5>{{blog.abstract}}</h5>
-<h6>on {{blog.publish_date}}</h6>
-{{blog.body|safe|linebreaks}}
+<div class="card mx-auto" style="width: 56.5rem;">
+  <div class="card-body">
+    <h3>{{blog.title}}</h3>
+    <h5>{{blog.abstract}}</h5>
+    <h6>on {{blog.publish_date}}</h6>
+    {{blog.body|safe|linebreaks}}
+  </div>
+</div>
 {% endblock %}
