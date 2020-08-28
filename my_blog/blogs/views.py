@@ -65,7 +65,7 @@ def search(request):
         qs = qs.filter(removal_date__icontains=removal_date_query)
 
     context = {
-        "queryset": qs
+        "object_list": qs
     }
 
-    return render(request, "blogs/results.html", context)
+    return render(request, "blogs/posts.html", context)

@@ -4,7 +4,7 @@
 <div class="card mx-auto" style="width: 56.5rem;">
 	<div class="card-body">
 		<table class="table" style="width=100%">
-			<thead class="thead-light">
+			<thead class="thead-dark">
 				<tr>
 					<th></th>
 					<th scope="col">Title</th>
@@ -16,12 +16,30 @@
 			</thead>
 			{% for blog in object_list %}
 				<tr>
-					<td scope="row"><a href="{% url 'edit_blog' pk=blog.id %}"><i class='far fa-edit'</i></a></td>
-					<td><a href="/blogs/{{blog.id}}">{{blog.title}}</a></td>
+					<td>
+						{% if blog.removal_date == None %}
+							<a href="{% url 'edit_blog' pk=blog.id %}"><i class="fas fa-edit"</a>
+						{% else %}
+							<i class='fas fa-edit'</i>
+						{% endif %}
+					</td>
+					<td>
+						{% if blog.removal_date == None %}
+							<a href="/blogs/{{blog.id}}">{{blog.title}}</a>
+						{% else %}
+							{{blog.title}}
+						{% endif %}
+					</td>
 					<td>{{blog.abstract}}</td>
 					<td>{{blog.publish_date|date:"Y-m-d"}}</td>
 					<td>{{blog.removal_date|date:"Y-m-d"}}</td>
-					<td><a href="{% url 'delete_blog' pk=blog.id %}"><i class="fa fa-trash"></i></a></td>
+					<td>
+						{% if blog.removal_date == None %}
+							<a href="{% url 'delete_blog' pk=blog.id %}"><i class="fas fa-trash-alt"></i></a>
+						{% else %}
+							<i class="fas fa-trash-alt"></i>
+						{% endif %}
+					</td>
 				</tr>
 			{% endfor %}
 		</table>
