@@ -17,13 +17,13 @@
   </head>
   <body>
     <h3 class="text-center" style="color:white">Edit Post</h1>
-    <div class="card mx-auto" style="width: 56.5rem;">
+    <div class="card mx-auto" style="width: 80rem;">
     	<div class="card-body">
         <form action="" method="POST">
         {% csrf_token %}
         Title: <br/><input type="text" name="title" value={{dict1.title}}><br/><br/>
-        Abstract: <br/><textarea cols="60" rows="4" name="abstract">{{dict1.abstract}}</textarea><br/>
-        Body: <br/><textarea cols="60" rows="12" name="body">{{dict1.body}}</textarea><br/>
+        Abstract: <br/><textarea rows="4" style="width: 75rem" name="abstract">{{dict1.abstract}}</textarea><br/><br/>
+        Body: <br/><textarea rows="10" style="width: 75rem" name="body">{{dict1.body}}</textarea><br/>
         <input type="submit" value="Update" class="btn btn-primary"/>
         </form>
         <a href="../../"><input type="button" value="Back" class="btn btn-primary float-right" /></a>
