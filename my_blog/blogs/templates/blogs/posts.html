@@ -1,43 +1,43 @@
 {% extends "blogs/homepage.html" %}
 
 {% block content %}
-<div class="card border-white mx-auto" style="width: 80rem;">
+<div class="card border-white mx-auto mt-n3 mb-4" style="width: 80rem;">
 	<div class="card-body">
 		<table id="posts" class="table table-hover" style="width=100%;">
-			<thead class="thead-white" style="background-color:#5AFFAF">
+			<thead class="thead-white" style="background-color:#44277C">
 				<tr>
-					<th></th>
-					<th scope="col" style="color:#44277C" class="font-weight-light">Title</th>
-					<th scope="col" style="width: 45rem; color:#44277C" class="font-weight-light">Abstract</th>
-					<th scope="col" style="width: 9rem; color:#44277C" class="font-weight-light">Publish Date</th>
-					<th scope="col" style="width: 10rem; color:#44277C" class="font-weight-light">Removal Date</th>
-					<th></th>
+					<th style="color:white" class="font-weight-light"></th>
+					<th scope="col" style="color:white" class="font-weight-light">Title</th>
+					<th scope="col" style="width: 45rem; color:white" class="font-weight-light">Abstract</th>
+					<th scope="col" style="width: 9rem; color:white" class="font-weight-light">Publish Date</th>
+					<th scope="col" style="width: 10rem; color:white" class="font-weight-light">Removal Date</th>
+					<th style="color:white" class="font-weight-light"></th>
 				</tr>
 			</thead>
 			{% for blog in object_list %}
 				<tr class="bg-white">
 					<td>
 						{% if blog.removal_date == None %}
-							<a href="{% url 'edit_blog' pk=blog.id %}"><i class="fas fa-edit" style="color:#4D9B92"</a>
+							<a href="{% url 'edit_blog' pk=blog.id %}"><i class="fas fa-edit" style="color:#5AFFAF"</a>
 						{% else %}
-							<i class='fas fa-edit'</i>
+							<i class='fas fa-edit text-muted'</i>
 						{% endif %}
 					</td>
 					<td>
 						{% if blog.removal_date == None %}
-							<a href="/blogs/{{blog.id}}" style="color:#4D9B92">{{blog.title}}</a>
+							<a href="/blogs/{{blog.id}}" style="color:#5AFFAF"><b>{{blog.title}}</b></a>
 						{% else %}
-							{{blog.title}}
+							<b class="text-muted">{{blog.title}}</b>
 						{% endif %}
 					</td>
-					<td>{{blog.abstract}}</td>
+					<td><i>{{blog.abstract}}</i></td>
 					<td>{{blog.publish_date|date:"Y-m-d"}}</td>
 					<td>{{blog.removal_date|date:"Y-m-d"}}</td>
 					<td>
 						{% if blog.removal_date == None %}
-							<a href="{% url 'delete_blog' pk=blog.id %}" onclick="return confirm('Are you sure?')"><i class="fas fa-trash-alt" style="color:#4D9B92"></i></a>
+							<a href="{% url 'delete_blog' pk=blog.id %}" onclick="return confirm('Are you sure?')"><i class="fas fa-trash-alt" style="color:#5AFFAF"></i></a>
 						{% else %}
-							<i class="fas fa-trash-alt"></i>
+							<i class="fas fa-trash-alt text-muted"></i>
 						{% endif %}
 					</td>
 				</tr>
