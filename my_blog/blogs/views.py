@@ -14,6 +14,10 @@ def add_blog(request):
             blog.title= request.POST.get('title')
             blog.abstract= request.POST.get('abstract')
             blog.body= request.POST.get('body')
+            if request.POST.get('publish_date'):
+                blog.publish_date = request.POST.get('publish_date')
+            if request.POST.get('removal_date'):
+                blog.removal_date = request.POST.get('removal_date')
             blog.save()
 
             return render(request, 'blogs/add_blog.html')
@@ -29,7 +33,7 @@ def delete_blog(request, pk=None):
 
 def edit_blog(request, pk=None):
     blog = Blog.objects.get(id=pk)
-    dic = ({"title":blog.title, "abstract":blog.abstract, "body":blog.body})
+    dic = ({"title":blog.title, "abstract":blog.abstract, "body":blog.body, "publish_date":blog.publish_date, "removal_date":blog.removal_date})
     dict2 = {"dict1":dic}
 
     if request.method == 'POST':
@@ -37,6 +41,10 @@ def edit_blog(request, pk=None):
             blog.title= request.POST.get('title')
             blog.abstract= request.POST.get('abstract')
             blog.body= request.POST.get('body')
+            if request.POST.get('publish_date'):
+                blog.publish_date = request.POST.get('publish_date')
+            if request.POST.get('removal_date'):
+                blog.removal_date = request.POST.get('removal_date')
             blog.save()
             dic = ({"title":blog.title, "abstract":blog.abstract, "body":blog.body})
             dict2 = {"dict1":dic}
@@ -55,13 +63,13 @@ def search(request):
     if title_query != '' and title_query is not None:
         qs = qs.filter(title__icontains=title_query)
 
-    elif abstract_query != '' and abstract_query is not None:
+    if abstract_query != '' and abstract_query is not None:
         qs = qs.filter(abstract__icontains=abstract_query)
 
-    elif publish_date_query != '' and publish_date_query is not None:
+    if publish_date_query != '' and publish_date_query is not None:
         qs = qs.filter(publish_date__icontains=publish_date_query)
 
-    elif removal_date_query != '' and removal_date_query is not None:
+    if removal_date_query != '' and removal_date_query is not None:
         qs = qs.filter(removal_date__icontains=removal_date_query)
 
     context = {

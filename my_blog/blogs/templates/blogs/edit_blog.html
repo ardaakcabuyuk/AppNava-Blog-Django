@@ -1,33 +1,23 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Edit Post</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'blogs/css/bootstrap.min.css' %}" type = "text/css"/>
-  	<meta name="viewport" content = "width=device-width, initial-scale=1.0">
+{% extends "blogs/homepage.html" %}
 
-  	<style type="text/css">
-  		html,
-  		body {
-        background-color: rgb(37,39,41);
-  		  height:100%
-  		}
-  	</style>
-  </head>
-  <body>
-    <h3 class="text-center" style="color:white">Edit Post</h1>
-    <div class="card mx-auto" style="width: 80rem;">
-    	<div class="card-body">
-        <form action="" method="POST">
-        {% csrf_token %}
-        Title: <br/><input type="text" name="title" value={{dict1.title}}><br/><br/>
-        Abstract: <br/><textarea rows="4" style="width: 75rem" name="abstract">{{dict1.abstract}}</textarea><br/><br/>
-        Body: <br/><textarea rows="10" style="width: 75rem" name="body">{{dict1.body}}</textarea><br/>
-        <input type="submit" value="Update" class="btn btn-primary"/>
-        </form>
-        <a href="../../"><input type="button" value="Back" class="btn btn-primary float-right" /></a>
-      </div>
+{% block content %}
+  <h3 class="text-center" style="color:white">Edit Post</h1>
+  <div class="card border-white mx-auto" style="width: 80rem; background-color:#44277C">
+  	<div class="card-body">
+      <form action="" method="POST">
+      {% csrf_token %}
+      <label for="validationTitle" style="color:white">Title</label><br/>
+      <input type="text" class="form-control" id="validationTitle" name="title" value="{{dict1.title}}" required/><br/>
+      <label for="validationAbstract" style="color:white">Abstract</label><br/>
+      <textarea class="form-control" rows="4" id="validationAbstract" name="abstract" required>{{dict1.abstract}}</textarea><br/>
+      <label for="validationBody" style="color:white">Body</label><br/>
+      <textarea class="form-control" rows="10" id="validationBody" name="body" required>{{dict1.body}}</textarea><br/>
+      <label for="validationPublishDate" style="color:white">Publish Date</label><br/>
+      <input type="date" class="form-control" id="validationPublishDate" name="publish_date" value="{{dict1.publish_date|date:'Y-m-d'}}" size="50"><br/>
+      <label for="validationRemovalDate" style="color:white">Removal Date</label><br/>
+      <input type="date" class="form-control" id="validationRemovalDate" name="removal_date" value="{{dict1.removal_date|date:'Y-m-d'}}" size="50"><br/>
+      <button type="submit" class="btn btn-dark" style="background-color:#5AFFAF; color:#44277C">Update</button>
+      </form>
     </div>
-  </body>
-</html>
+  </div>
+{% endblock %}

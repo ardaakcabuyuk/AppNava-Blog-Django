@@ -6,53 +6,44 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'blogs/css/bootstrap.min.css' %}" type = "text/css"/>
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
-  	<meta name="viewport" content = "width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <meta name="viewport" content = "width=device-width, initial-scale=1.0">
 
   	<style type="text/css">
   		html,
   		body {
-        background-color: rgb(37,39,41);
+        background-color: #44277C;
   		  height:100%
   		}
   	</style>
   </head>
   <body>
     <h2 class="text-center" style="color:white">My Blog</h1>
-    <div class="card mx-auto" style="width: 80rem; height: 17rem;">
+    <div class="card border-light mb-3 mx-auto" style="width: 80rem; height: 17rem; background-color: #44277C" >
       <div class="card-body">
         <form action="/search/" method="get">
           <div class="form-row justify-content-center">
             <div class="col-md-6">
-              <label for="validationTitle">Title</label>
+              <label for="validationTitle" style="color:white">Title</label>
               <input type="search" class="form-control" id="validationTitle" name="title" placeholder="Title" size="50">
               <br/>
-              <label for="validationPublishDate">Publish Date</label>
-              <div class="input-group">
-                <input type="search" class="form-control" id="validationPublishDate" name="publish_date" placeholder="Publish Date" size="50">
-                <div class="input-group-append">
-                  <span class="input-group-text bg-dark" id="inputGroupAppend1"><i class="fas fa-calendar-alt" style="color:white"></i></span>
-                </div>
-              </div>
+              <label for="validationPublishDate" style="color:white">Publish Date</label>
+              <input type="date" class="form-control" id="validationPublishDate" name="publish_date" placeholder="Publish Date" size="50">
             </div>
             <div class="col-md-6">
-              <label for="validationAbstract">Abstract</label>
+              <label for="validationAbstract" style="color:white">Abstract</label>
               <input type="search" class="form-control" id="validationAbstract" name="abstract" placeholder="Abstract" size="50">
               <br/>
-              <label for="validationRemovalDate">Removal Date</label>
-              <div class="input-group">
-                <input type="search" class="form-control" id="validationRemovalDate" name="removal_date" placeholder="Removal Date" size="50">
-                <div class="input-group-append">
-                  <span class="input-group-text bg-dark" id="inputGroupAppend2"><i class="fas fa-calendar-alt" style="color:white"></i></span>
-                </div>
-              </div>
+              <label for="validationRemovalDate" style="color:white">Removal Date</label>
+              <input type="date" class="form-control" id="validationRemovalDate" name="removal_date" placeholder="Removal Date" size="50">
             </div>
           </div>
           </br>
-          <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Search</button>
-          <button type="reset" class="btn btn-danger"><i class="fas fa-times"></i> Clear</button>
-          <a href="/addblog/" class="btn btn-success"><i class="fas fa-plus"></i> Add New Post</a>
+          <button type="submit" class="btn btn-dark" style="background-color:#5AFFAF; color:#44277C"><i class="fas fa-search"></i> Search</button>
+          <button type="reset" class="btn btn-dark" style="background-color:#5AFFAF; color:#44277C"><i class="fas fa-times"></i> Clear</button>
+          <a href="/addblog/" class="btn btn-dark" style="background-color:#5AFFAF; color:#44277C"><i class="fas fa-plus"></i> Add New Post</a>
         </form>
-        <br>
       </div>
     </div>
     <div class='container-fluid'>
