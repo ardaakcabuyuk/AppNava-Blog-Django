@@ -60,6 +60,8 @@ def search(request):
     publish_date_query = request.GET.get("publish_date")
     removal_date_query = request.GET.get("removal_date")
 
+    ql = {"title":title_query, "abstract":abstract_query, "publish_date":publish_date_query, "removal_date": removal_date_query}
+
     if title_query != '' and title_query is not None:
         qs = qs.filter(title__icontains=title_query)
 
@@ -73,7 +75,8 @@ def search(request):
         qs = qs.filter(removal_date__icontains=removal_date_query)
 
     context = {
-        "object_list": qs
+        "object_list": qs,
+        "query_list": ql
     }
 
     return render(request, "blogs/posts.html", context)
