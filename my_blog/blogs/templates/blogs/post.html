@@ -1,22 +1,15 @@
 {% extends "blogs/homepage.html" %}
 
 {% block content %}
-<div class="card border-white mx-auto" style="width: 80rem; background-color:#5AFFAF">
+<h3 class="text-center display-4 mt-n3 pb-3" style="color:white">Post</h3>
+<div class="card border-white mx-auto mb-5" style="width: 80rem; background-color:white">
   <div class="card-body">
     <h3><b style="color:#44277C">{{blog.title}}</b></h3>
     <hr/>
     <h4 class="font-weight-light" style="color:#44277C">Abstract</h4>
     <p class="font-italic" style="color:#44277C">{{blog.abstract}}</p>
     <hr/>
-    <p style="color:#44277C" id="bodytext"</p>
-    <script>
-      var $bodytext = $( "#bodytext" ),
-        str = "{{blog.body}}",
-        html = $.parseHTML(str),
-        nodeNames = [];
-
-      $bodytext.append( html );
-    </script>
+    <p style="color:#44277C" id="bodytext">{{blog.body}}</p>
     <p class="font-weight-light float-right" style="color:#44277C">on {{blog.publish_date}}</p>
   </div>
 </div>

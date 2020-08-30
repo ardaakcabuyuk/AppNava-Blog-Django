@@ -1,23 +1,23 @@
 {% extends "blogs/homepage.html" %}
 
 {% block content %}
-  <h3 class="text-center" style="color:white">Create Post</h1>
-  <div class="card border-white mx-auto" style="width: 80rem; background-color:#44277C">
-  	<div class="card-body">
-      <form action="" method="POST">
-      {% csrf_token %}
-      <label for="validationTitle" style="color:white">Title</label><br/>
-      <input type="text" class="form-control" id="validationTitle" name="title" required/><br/>
-      <label for="validationAbstract" style="color:white">Abstract</label><br/>
-      <textarea class="form-control" rows="4" id="validationAbstract" name="abstract" required></textarea><br/>
-      <label for="validationBody" style="color:white">Body</label><br/>
-      <textarea class="form-control" rows="10" id="summernote" name="body" required></textarea><br/>
-      <label for="validationPublishDate" style="color:white">Publish Date</label><br/>
-      <input type="date" class="form-control" id="validationPublishDate" name="publish_date" placeholder="Publish Date" size="50"><br/>
-      <label for="validationRemovalDate" style="color:white">Removal Date</label><br/>
-      <input type="date" class="form-control" id="validationRemovalDate" name="removal_date" placeholder="Removal Date" size="50"><br/>
-      <button type="submit" class="btn btn-dark" style="background-color:#5AFFAF; color:#44277C">Add</button>
-      </form>
-    </div>
+<h3 class="text-center display-4 mt-n3 pb-3" style="color:white">Create Post</h1>
+<div class="card border-white mx-auto mb-5" style="width: 80rem; background-color:#44277C">
+	<div class="card-body">
+    <form action="" method="POST">
+    {% csrf_token %}
+    <label for="validationTitle" style="color:white">Title</label><br/>
+    <input type="text" class="form-control" id="validationTitle" name="title" required/><br/>
+    <label for="validationAbstract" style="color:white">Abstract</label><br/>
+    <textarea class="form-control" rows="4" id="validationAbstract" name="abstract" required></textarea><br/>
+    <label for="validationBody" style="color:white">Body</label><br/>
+    <textarea class="form-control" rows="10" id="summernote" name="body" required></textarea><br/>
+    <label for="validationPublishDate" style="color:white">Publish Date</label><br/>
+    <input type="date" class="form-control" id="validationPublishDate" name="publish_date" placeholder="Publish Date" size="50"><br/>
+    <label for="validationRemovalDate" style="color:white">Removal Date</label><br/>
+    <input type="date" class="form-control" id="validationRemovalDate" name="removal_date" placeholder="Removal Date" size="50"><br/>
+    <button type="submit" class="btn btn-dark" style="background-color:#5AFFAF; color:#44277C">Add</button>
+    </form>
   </div>
+</div>
 {% endblock %}
