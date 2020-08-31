@@ -32,20 +32,20 @@
       .dataTables_wrapper .dataTables_paginate .paginate_button {
         background: #44277C;
         color: white!important;
-        border-radius: 4px;
+        border-radius: 10px;
         border: 1px solid white;
       }
       .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
         background: #5AFFAF;
         color: black!important;
-        border-radius: 4px;
+        border-radius: 10px;
         border: 1px solid white;
       }
 
       .dataTables_wrapper .dataTables_paginate .paginate_button:active {
         background: #5AFFAF!important;
         color: white!important;
-        border-radius: 4px;
+        border-radius: 10px;
         border: 1px solid white;
         box-shadow:inset 0 0 3px white;
       }
@@ -67,13 +67,13 @@
 
       .dataTables_wrapper .dataTables_paginate .paginate_button.current {
         background: #5AFFAF;
-        border-radius: 4px;
+        border-radius: 10px;
         border: 1px solid white;
       }
 
       .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
         background: #5AFFAF;
-        border-radius: 4px;
+        border-radius: 10px;
         border: 1px solid white;
       }
 
@@ -114,6 +114,23 @@
       table.dataTable.no-footer {
         border-bottom:1px solid #44277C;
       }
+
+      input[type="date"]::-webkit-calendar-picker-indicator {
+        color: rgba(90, 255, 175, 1.0);
+        opacity: 1;
+      }
+
+      table th:first-child {
+        border-radius:15px 0 0 15px;
+      }
+
+      table th:last-child {
+        border-radius:0 15px 15px 0;
+      }
+
+      .table > tbody > tr:first-child > td {
+          border: none;
+      }
     </style>
     <script>
       $(document).ready(function() {
@@ -133,38 +150,38 @@
             <div class="col-md-6">
               <label for="validationTitle" style="color:white">Title</label>
               {% if not query_list or query_list.title == "" %}
-                <input type="search" class="form-control" id="validationTitle" name="title" placeholder="Title" size="50">
+                <input type="search" class="form-control" id="validationTitle" name="title" placeholder="Title" size="50" style="border-radius:10px;">
               {% else %}
-                <input type="search" class="form-control" id="validationTitle" name="title" value="{{query_list.title}}" size="50">
+                <input type="search" class="form-control" id="validationTitle" name="title" value="{{query_list.title}}" size="50" style="border-radius:10px;">
               {% endif %}
               <br/>
               <label for="validationPublishDate" style="color:white">Publish Date</label>
               {% if not query_list or query_list.publish_date == None %}
-                <input type="date" class="form-control" id="validationPublishDate" name="publish_date" placeholder="Publish Date" size="50">
+                <input type="date" class="form-control" id="validationPublishDate" name="publish_date" placeholder="Publish Date" size="50" style="border-radius:10px;">
               {% else %}
-                <input type="date" class="form-control" id="validationPublishDate" name="publish_date" value="{{query_list.publish_date}}" size="50">
+                <input type="date" class="form-control" id="validationPublishDate" name="publish_date" value="{{query_list.publish_date}}" size="50" style="border-radius:10px;">
               {% endif %}
             </div>
             <div class="col-md-6">
               <label for="validationAbstract" style="color:white">Abstract</label>
               {% if not query_list or query_list.abstract == "" %}
-                <input type="search" class="form-control" id="validationAbstract" name="abstract" placeholder="Abstract" size="50">
+                <input type="search" class="form-control" id="validationAbstract" name="abstract" placeholder="Abstract" size="50" style="border-radius:10px;">
               {% else %}
-                <input type="search" class="form-control" id="validationAbstract" name="abstract" value="{{query_list.abstract}}" size="50">
+                <input type="search" class="form-control" id="validationAbstract" name="abstract" value="{{query_list.abstract}}" size="50" style="border-radius:10px;">
               {% endif %}
               <br/>
               <label for="validationRemovalDate" style="color:white">Removal Date</label>
               {% if not query_list or query_list.removal_date == None %}
-                <input type="date" class="form-control" id="validationRemovalDate" name="removal_date" placeholder="Removal Date" size="50">
+                <input type="date" class="form-control" id="validationRemovalDate" name="removal_date" placeholder="Removal Date" size="50" style="border-radius:10px;">
               {% else %}
-                <input type="date" class="form-control" id="validationRemovalDate" name="removal_date" value="{{query_list.removal_date}}" size="50">
+                <input type="date" class="form-control" id="validationRemovalDate" name="removal_date" value="{{query_list.removal_date}}" size="50" style="border-radius:10px;">
               {% endif %}
             </div>
           </div>
           </br>
-          <button type="submit" class="btn btn-dark" style="background-color:#5AFFAF; color:#44277C"><i class="fas fa-search"></i> Search</button>
-          <a href="../" class="btn btn-dark" style="background-color:#5AFFAF; color:#44277C"><i class="fas fa-times"></i> Clear</button>
-          <a href="/addblog/" class="btn btn-dark float-right" style="background-color:#5AFFAF; color:#44277C"><i class="fas fa-plus"></i> Add New Post</a>
+          <button type="submit" class="btn btn-dark" style="background-color:#5AFFAF; color:#44277C; border-radius:10px;"><i class="fas fa-search"></i> Search</button>
+          <a href="../" class="btn btn-dark" style="background-color:#5AFFAF; color:#44277C; border-radius:10px;"><i class="fas fa-times"></i> Clear</button>
+          <a href="/addblog/" class="btn btn-dark float-right" style="background-color:#5AFFAF; color:#44277C; border-radius:10px;"><i class="fas fa-plus"></i> Add New Post</a>
         </form>
       </div>
     </div>
