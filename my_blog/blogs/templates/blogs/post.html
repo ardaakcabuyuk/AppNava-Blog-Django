@@ -9,7 +9,7 @@
     <h4 class="font-weight-light" style="color:#44277C">Abstract</h4>
     <p class="font-italic" style="color:#44277C">{{blog.abstract}}</p>
     <hr/>
-    <p style="color:#44277C" id="bodytext">{{blog.body}}</p>
+    <p style="color:#44277C" id="bodytext">{{blog.body|safe}}</p>
     <p class="font-weight-light float-right" style="color:#44277C">on {{blog.publish_date}}</p>
   </div>
 </div>
