@@ -51,13 +51,10 @@ def delete_blog(request, pk=None):
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def edit_blog(request, pk=None):
-    print('aaaaa')
-    #get the id of the selected post
+
+    #get selected post
     blog = Blog.objects.get(id=pk)
 
-    #create nested dictionaries.they will be passed to edit_blog.html in order to get prefilled fields
-    #dic = ({"title":blog.title, "abstract":blog.abstract, "body":blog.body, "publish_date":blog.publish_date, "removal_date":blog.removal_date})
-    #dict2 = {"dict1":dic} #this step is required because we will simply pass dict2 to edit_blog.html and call dict1.title, for example
 
     #if user clicks 'update' button
     if request.method == 'POST':
@@ -111,12 +108,14 @@ def search(request):
     if publish_date_min_query != '' and publish_date_min_query is not None:
         qs = qs.filter(publish_date__range=[publish_date_min_query, "9999-12-31"])
 
+    #added 1 day to the upper end of date range, because upper end is exclusive
     if publish_date_max_query != '' and publish_date_max_query is not None:
         qs = qs.filter(publish_date__range=["1000-01-01", datetime.strptime(publish_date_max_query, "%Y-%m-%d").date() + timedelta(days=1)])
 
     if removal_date_min_query != '' and removal_date_min_query is not None:
         qs = qs.filter(removal_date__range=[removal_date_min_query, "9999-12-31"])
 
+    #added 1 day to the upper end of date range, because upper end is exclusive
     if removal_date_max_query != '' and removal_date_max_query is not None:
         qs = qs.filter(removal_date__range=["1000-01-01", datetime.strptime(removal_date_max_query, "%Y-%m-%d").date() + timedelta(days=1)])
 
