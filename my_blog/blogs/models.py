@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import date
 
 class Blog(models.Model):
     title = models.CharField(max_length=100)
@@ -10,3 +11,7 @@ class Blog(models.Model):
 
     def __str__(self):
         return self.title
+
+    @property
+    def is_past(self):
+        return date.today() >= self.removal_date.date()

@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.core.paginator import Paginator
 from .models import Blog
-from datetime import datetime
+from datetime import datetime, timedelta
 
 def homepage(request):
     return render(request, 'blogs/posts.html') #posts.html extends homepage.html
@@ -35,7 +35,7 @@ def add_blog(request):
             return HttpResponseRedirect('/')
 
     else:
-            return render(request,'blogs/add_blog.html')
+            return HttpResponseRedirect('/')
 
 def delete_blog(request, pk=None):
     #get the id of the selected post
@@ -51,12 +51,13 @@ def delete_blog(request, pk=None):
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def edit_blog(request, pk=None):
+    print('aaaaa')
     #get the id of the selected post
     blog = Blog.objects.get(id=pk)
 
     #create nested dictionaries.they will be passed to edit_blog.html in order to get prefilled fields
-    dic = ({"title":blog.title, "abstract":blog.abstract, "body":blog.body, "publish_date":blog.publish_date, "removal_date":blog.removal_date})
-    dict2 = {"dict1":dic} #this step is required because we will simply pass dict2 to edit_blog.html and call dict1.title, for example
+    #dic = ({"title":blog.title, "abstract":blog.abstract, "body":blog.body, "publish_date":blog.publish_date, "removal_date":blog.removal_date})
+    #dict2 = {"dict1":dic} #this step is required because we will simply pass dict2 to edit_blog.html and call dict1.title, for example
 
     #if user clicks 'update' button
     if request.method == 'POST':
@@ -83,7 +84,7 @@ def edit_blog(request, pk=None):
 
     else:
         #to get the prefilled form before user clicks updates the post
-        return render(request, 'blogs/edit_blog.html', dict2)
+        return HttpResponseRedirect('/')
 
 def search(request):
     #get all objects (order by -publish_date which is the same as homepage)
@@ -92,11 +93,13 @@ def search(request):
     #get user queries
     title_query = request.GET.get("title")
     abstract_query = request.GET.get("abstract")
-    publish_date_query = request.GET.get("publish_date")
-    removal_date_query = request.GET.get("removal_date")
+    publish_date_min_query = request.GET.get("publish_date_min")
+    publish_date_max_query = request.GET.get("publish_date_max")
+    removal_date_min_query = request.GET.get("removal_date_min")
+    removal_date_max_query = request.GET.get("removal_date_max")
 
     #after clicking search button, we save the queries in a dictionary to keep them in their fields
-    ql = {"title":title_query, "abstract":abstract_query, "publish_date":publish_date_query, "removal_date": removal_date_query}
+    ql = {"title":title_query, "abstract":abstract_query, "publish_date_min":publish_date_min_query, "publish_date_max":publish_date_max_query, "removal_date_min": removal_date_min_query, "removal_date_max": removal_date_max_query}
 
     #filter the posts according to the queries
     if title_query != '' and title_query is not None:
@@ -105,16 +108,22 @@ def search(request):
     if abstract_query != '' and abstract_query is not None:
         qs = qs.filter(abstract__icontains=abstract_query)
 
-    if publish_date_query != '' and publish_date_query is not None:
-        qs = qs.filter(publish_date__icontains=publish_date_query)
+    if publish_date_min_query != '' and publish_date_min_query is not None:
+        qs = qs.filter(publish_date__range=[publish_date_min_query, "9999-12-31"])
 
-    if removal_date_query != '' and removal_date_query is not None:
-        qs = qs.filter(removal_date__icontains=removal_date_query)
+    if publish_date_max_query != '' and publish_date_max_query is not None:
+        qs = qs.filter(publish_date__range=["1000-01-01", datetime.strptime(publish_date_max_query, "%Y-%m-%d").date() + timedelta(days=1)])
+
+    if removal_date_min_query != '' and removal_date_min_query is not None:
+        qs = qs.filter(removal_date__range=[removal_date_min_query, "9999-12-31"])
+
+    if removal_date_max_query != '' and removal_date_max_query is not None:
+        qs = qs.filter(removal_date__range=["1000-01-01", datetime.strptime(removal_date_max_query, "%Y-%m-%d").date() + timedelta(days=1)])
 
     #this dictionary will be passed to posts.html (and homepage.html since posts.html extends it)
     context = {
         "object_list": qs,
         "query_list": ql
     }
-    
+
     return render(request, "blogs/posts.html", context)

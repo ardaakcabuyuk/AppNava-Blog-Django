@@ -17,15 +17,18 @@
 			{% for blog in object_list %}
 				<tr class="bg-white">
 					<td>
-						{% if blog.removal_date == None %}
-							<a href="{% url 'edit_blog' pk=blog.id %}"><i class="fas fa-edit" style="color:#5AFFAF"</a>
+						{% if blog.removal_date == None or not blog.is_past %}
+							<a href="/" data-toggle="modal" data-target="#editPostModal" data-id="{{blog.id}}"
+							data-title="{{blog.title}}" data-abstract="{{blog.abstract}}"
+							data-body="{{blog.body}}" data-publish_date="{{blog.publish_date|date:'Y-m-d'}}"
+							data-removal_date="{{blog.removal_date|date:'Y-m-d'}}" class="open-edit"><i class="fas fa-edit" style="color:#44277C"></i></a>
 						{% else %}
 							<i class='fas fa-edit text-muted'</i>
 						{% endif %}
 					</td>
 					<td>
-						{% if blog.removal_date == None %}
-							<a href="/blogs/{{blog.id}}" style="color:#5AFFAF"><b>{{blog.title}}</b></a>
+						{% if blog.removal_date == None or not blog.is_past %}
+							<a href="/blogs/{{blog.id}}" style="color:#44277C"><b>{{blog.title}}</b></a>
 						{% else %}
 							<b class="text-muted">{{blog.title}}</b>
 						{% endif %}
@@ -34,8 +37,8 @@
 					<td>{{blog.publish_date|date:"Y-m-d"}}</td>
 					<td>{{blog.removal_date|date:"Y-m-d"}}</td>
 					<td>
-						{% if blog.removal_date == None %}
-							<a href="{% url 'delete_blog' pk=blog.id %}" onclick="return confirm('Are you sure?')"><i class="fas fa-trash-alt" style="color:#5AFFAF"></i></a>
+						{% if blog.removal_date == None or not blog.is_past %}
+							<a href="/" data-toggle="modal" data-target="#removeModal" data-id="{{blog.id}}"><i class="fas fa-trash-alt" style="color:#44277C"></i></a>
 						{% else %}
 							<i class="fas fa-trash-alt text-muted"></i>
 						{% endif %}
@@ -57,4 +60,82 @@
 		</script>
 	</div>
 </div>
+<div class="modal fade" id="editPostModal" tabindex="-1" role="dialog" aria-labelledby="editPostLabel" aria-hidden="true">
+	<form id="edit_form" action="" method="POST">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="editPostLabel">Edit Post</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					{% csrf_token %}
+					<label for="validationTitle">Title</label><br/>
+					<input type="text" class="form-control" id="validationTitle_edit" name="title" value="" required/><br/>
+					<label for="validationAbstract">Abstract</label><br/>
+					<textarea class="form-control" rows="4" id="validationAbstract_edit" name="abstract" required></textarea><br/>
+					<label for="validationBody">Body</label><br/>
+					<textarea class="form-control" rows="10" id="summernote_edit" name="body" required></textarea><br/>
+					<label for="validationPublishDate">Publish Date</label><br/>
+					<input type="date" class="form-control" id="validationPublishDate_edit" name="publish_date" size="50"><br/>
+					<label for="validationRemovalDate">Removal Date</label><br/>
+					<input type="date" class="form-control" id="validationRemovalDate_edit" name="removal_date" size="50"><br/>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-dark" style="background-color:#44277C; color:white"><i class="fas fa-edit"></i> Update</button>
+					<button type="button" class="btn btn-dark" data-dismiss="modal" style="background-color:#44277C; color:white; border-radius:10px; border-color:#44277C"><i class="fas fa-times"></i> Cancel</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+<script>
+	$(document).on("click", ".open-edit", function () {
+		var id = $(this).data('id');
+	 	var title = $(this).data('title');
+	 	var abstract = $(this).data('abstract');
+	 	var body = $(this).data('body');
+	 	var publish_date = $(this).data('publish_date');
+	 	var removal_date = $(this).data('removal_date');
+		$(".modal-body #validationTitle_edit").val(title);
+	 	$(".modal-body #validationAbstract_edit").text(abstract);
+		$(".modal-body #summernote_edit").summernote("code", body)
+		$(".modal-body #validationPublishDate_edit").val(publish_date);
+		$(".modal-body #validationRemovalDate_edit").val(removal_date);
+		str1 = "/editblog/";
+		str2 = id.toString();
+		str1 = str1.concat(str2);
+		str1 = str1.concat("/");
+		document.getElementById("edit_form").action = str1;
+	});
+</script>
+<div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="removeModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="removeModalLabel">Delete Post</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Are you sure?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-dark" data-dismiss="modal" style="background-color:#5AFFAF; color:#44277C; border-radius:10px; border-color:#5AFFAF"><i class="fas fa-times"></i> Cancel</button>
+        <a class="btn btn-dark" href="#" style="background-color:#5AFFAF; color:#44277C; border-radius:10px; border-color:#5AFFAF"><i class="fas fa-trash-alt"></i> Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+	$('#removeModal').on('show.bs.modal', function (event) {
+	  var button = $(event.relatedTarget)
+	  var post_id = button.data('id')
+	  var modal = $(this)
+	  modal.find('.modal-footer a').attr('href', "/deleteblog/" + post_id)
+	});
+</script>
 {% endblock %}

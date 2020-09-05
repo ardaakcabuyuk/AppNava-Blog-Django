@@ -17,6 +17,8 @@
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <script src="//cdn.datatables.net/plug-ins/1.10.21/pagination/full_numbers_no_ellipses.js"></script>
 
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/js/bootstrap.js"></script>
+
     <link type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
     <link type="text/css" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 
@@ -115,11 +117,6 @@
         border-bottom:1px solid #44277C;
       }
 
-      input[type="date"]::-webkit-calendar-picker-indicator {
-        color: rgba(90, 255, 175, 1.0);
-        opacity: 1;
-      }
-
       table th:first-child {
         border-radius:15px 0 0 15px;
       }
@@ -144,11 +141,25 @@
           height: 200
         });
       });
+
+      $(document).ready(function() {
+        $('#summernote').summernote({
+          tabsize: 2,
+          height: 200
+        });
+      });
+
+      $(document).ready(function() {
+        $('#summernote_edit').summernote({
+          tabsize: 2,
+          height: 200
+        });
+      });
     </script>
   </head>
   <body>
     <h2 class="text-center display-3 pt-3 pb-3" style="color:white">My Blog</h1>
-    <div class="card border-light mb-3 mx-auto" style="width: 80rem; height: 17rem; background-color: #44277C; border-radius: 30px;">
+    <div class="card border-light mb-3 mx-auto" style="width: 80rem; background-color: #44277C; border-radius: 30px;">
       <div class="card-body">
         <form action="/search/" method="get">
           <div class="form-row justify-content-center">
@@ -160,11 +171,18 @@
                 <input type="search" class="form-control" id="validationTitle" name="title" value="{{query_list.title}}" size="50" style="border-radius:10px;">
               {% endif %}
               <br/>
-              <label for="validationPublishDate" style="color:white">Publish Date</label>
-              {% if not query_list or query_list.publish_date == None %}
-                <input type="date" class="form-control" id="validationPublishDate" name="publish_date" placeholder="Publish Date" size="50" style="border-radius:10px;">
+              <label for="validationPublishDateMin" style="color:white">Publish Date (Min)</label>
+              {% if not query_list or query_list.publish_date_min == None %}
+                <input type="date" class="form-control" id="validationPublishDateMin" name="publish_date_min" placeholder="Publish Date (Min)" size="50" style="border-radius:10px;">
               {% else %}
-                <input type="date" class="form-control" id="validationPublishDate" name="publish_date" value="{{query_list.publish_date}}" size="50" style="border-radius:10px;">
+                <input type="date" class="form-control" id="validationPublishDateMin" name="publish_date_min" value="{{query_list.publish_date_min}}" size="50" style="border-radius:10px;">
+              {% endif %}
+              <br/>
+              <label for="validationPublishDateMax" style="color:white">Publish Date (Max)</label>
+              {% if not query_list or query_list.publish_date_max == None %}
+                <input type="date" class="form-control" id="validationPublishDateMax" name="publish_date_max" placeholder="Publish Date (Max)" size="50" style="border-radius:10px;">
+              {% else %}
+                <input type="date" class="form-control" id="validationPublishDateMax" name="publish_date_max" value="{{query_list.publish_date_max}}" size="50" style="border-radius:10px;">
               {% endif %}
             </div>
             <div class="col-md-6">
@@ -175,21 +193,72 @@
                 <input type="search" class="form-control" id="validationAbstract" name="abstract" value="{{query_list.abstract}}" size="50" style="border-radius:10px;">
               {% endif %}
               <br/>
-              <label for="validationRemovalDate" style="color:white">Removal Date</label>
-              {% if not query_list or query_list.removal_date == None %}
-                <input type="date" class="form-control" id="validationRemovalDate" name="removal_date" placeholder="Removal Date" size="50" style="border-radius:10px;">
+              <label for="validationRemovalDateMin" style="color:white">Removal Date (Min)</label>
+              {% if not query_list or query_list.removal_date_min == None %}
+                <input type="date" class="form-control" id="validationRemovalDateMin" name="removal_date_min" placeholder="Removal Date (Min)" size="50" style="border-radius:10px;">
               {% else %}
-                <input type="date" class="form-control" id="validationRemovalDate" name="removal_date" value="{{query_list.removal_date}}" size="50" style="border-radius:10px;">
+                <input type="date" class="form-control" id="validationRemovalDateMin" name="removal_date_min" value="{{query_list.removal_date_min}}" size="50" style="border-radius:10px;">
+              {% endif %}
+              <br/>
+              <label for="validationRemovalDateMax" style="color:white">Removal Date</label>
+              {% if not query_list or query_list.removal_date_max == None %}
+                <input type="date" class="form-control" id="validationRemovalDateMax" name="removal_date_max" placeholder="Removal Date (Max)" size="50" style="border-radius:10px;">
+              {% else %}
+                <input type="date" class="form-control" id="validationRemovalDateMax" name="removal_date_max" value="{{query_list.removal_date_max}}" size="50" style="border-radius:10px;">
               {% endif %}
             </div>
           </div>
           </br>
           <button type="submit" class="btn btn-dark" style="background-color:#5AFFAF; color:#44277C; border-radius:10px; border-color:#5AFFAF"><i class="fas fa-search"></i> Search</button>
-          <a href="../" class="btn btn-dark" style="background-color:#5AFFAF; color:#44277C; border-radius:10px; border-color:#5AFFAF"><i class="fas fa-times"></i> Clear</button>
-          <a href="/addblog/" class="btn btn-dark float-right" style="background-color:#44277C; color:#5AFFAF; border-radius:10px; border-color:#5AFFAF;"><i class="fas fa-plus"></i> Add New Post</a>
+          <button type="button" onclick="customReset()" class="btn btn-dark" style="background-color:#5AFFAF; color:#44277C; border-radius:10px; border-color:#5AFFAF"><i class="fas fa-times"></i> Clear</button>
+          <button type="button" data-toggle="modal" data-target="#addPost" class="btn btn-dark float-right" style="background-color:#44277C; color:#5AFFAF; border-radius:10px; border-color:#5AFFAF;"><i class="fas fa-plus"></i> Add New Post</a>
         </form>
       </div>
     </div>
+    <div class="modal fade" id="addPost" tabindex="-1" role="dialog" aria-labelledby="addPostLabel" aria-hidden="true">
+      <form action="{% url 'add_blog' %}" method="POST">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="addPostLabel">Add Post</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+      		    {% csrf_token %}
+      		    <label for="validationTitle">Title</label><br/>
+      		    <input type="text" class="form-control" id="validationTitle" name="title" required/><br/>
+      		    <label for="validationAbstract">Abstract</label><br/>
+      		    <textarea class="form-control" rows="4" id="validationAbstract" name="abstract" required></textarea><br/>
+      		    <label for="validationBody">Body</label><br/>
+      		    <textarea class="form-control" rows="10" id="summernote" name="body" required></textarea><br/>
+      		    <label for="validationPublishDate">Publish Date</label><br/>
+      		    <input type="date" class="form-control" id="validationPublishDate" name="publish_date" placeholder="Publish Date" size="50"><br/>
+      		    <label for="validationRemovalDate">Removal Date</label><br/>
+      		    <input type="date" class="form-control" id="validationRemovalDate" name="removal_date" placeholder="Removal Date" size="50"><br/>
+            </div>
+            <div class="modal-footer">
+            <button type="submit" class="btn btn-dark" style="background-color:#44277C; color:white"><i class="fas fa-plus"></i> Add</button>
+            <button type="button" class="btn btn-dark" data-dismiss="modal" style="background-color:#44277C; color:white; border-radius:10px; border-color:#44277C"><i class="fas fa-times"></i> Cancel</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <script>
+      function customReset()
+      {
+        document.getElementById("validationTitle").value = "";
+        document.getElementById("validationTitle").placeholder = "Title";
+        document.getElementById("validationAbstract").value = "";
+        document.getElementById("validationAbstract").placeholder = "Abstract";
+        document.getElementById("validationPublishDateMin").value = "";
+        document.getElementById("validationPublishDateMax").value = "";
+        document.getElementById("validationRemovalDateMin").value = "";
+        document.getElementById("validationRemovalDateMax").value = "";
+      }
+    </script>
     <div class='container-fluid'>
     <br><br>
        {% block content %}
