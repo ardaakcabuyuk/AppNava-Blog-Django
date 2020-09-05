@@ -22,6 +22,8 @@
     <link type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
     <link type="text/css" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet">
 
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
     <meta name="viewport" content = "width=device-width, initial-scale=1.0">
   	<style type="text/css">
   		html,
@@ -133,27 +135,60 @@
         background-color: white!important;
         color: #44277C!important;
       }
+
+      .empty-alert {
+        background-color: #44277C;
+      }
+
+      .empty-alert:not([disabled]):hover {
+        background-color: #5AFFAF;
+      }
     </style>
     <script>
       $(document).ready(function() {
         $('#summernote').summernote({
           tabsize: 2,
           height: 200
-        });
-      });
+        })
 
-      $(document).ready(function() {
-        $('#summernote').summernote({
-          tabsize: 2,
-          height: 200
-        });
+        $('#add_form').on('submit', function(e) {
+
+          if($('#summernote').summernote('isEmpty')) {
+            swal({
+              title:'Content Required',
+              text: 'Body is empty, fill it!',
+              buttons: {
+                confirm: {text: 'OK', className: 'empty-alert'}
+              }
+            });
+
+            // cancel submit
+            e.preventDefault();
+          }
+        })
       });
 
       $(document).ready(function() {
         $('#summernote_edit').summernote({
           tabsize: 2,
           height: 200
-        });
+        })
+
+        $('#edit_form').on('submit', function(e) {
+
+          if($('#summernote_edit').summernote('isEmpty')) {
+            swal({
+              title:'Content Required',
+              text: 'Body is empty, fill it!',
+              buttons: {
+                confirm: {text: 'OK', className: 'empty-alert'}
+              }
+            });
+
+            // cancel submit
+            e.preventDefault();
+          }
+        })
       });
     </script>
   </head>
@@ -200,7 +235,7 @@
                 <input type="date" class="form-control" id="validationRemovalDateMin" name="removal_date_min" value="{{query_list.removal_date_min}}" size="50" style="border-radius:10px;">
               {% endif %}
               <br/>
-              <label for="validationRemovalDateMax" style="color:white">Removal Date</label>
+              <label for="validationRemovalDateMax" style="color:white">Removal Date (Max)</label>
               {% if not query_list or query_list.removal_date_max == None %}
                 <input type="date" class="form-control" id="validationRemovalDateMax" name="removal_date_max" placeholder="Removal Date (Max)" size="50" style="border-radius:10px;">
               {% else %}
@@ -216,7 +251,7 @@
       </div>
     </div>
     <div class="modal fade" id="addPost" tabindex="-1" role="dialog" aria-labelledby="addPostLabel" aria-hidden="true">
-      <form action="{% url 'add_blog' %}" method="POST">
+      <form id="add_form" action="{% url 'add_blog' %}" method="POST">
         <div class="modal-dialog modal-lg" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -232,15 +267,15 @@
       		    <label for="validationAbstract">Abstract</label><br/>
       		    <textarea class="form-control" rows="4" id="validationAbstract" name="abstract" required></textarea><br/>
       		    <label for="validationBody">Body</label><br/>
-      		    <textarea class="form-control" rows="10" id="summernote" name="body" required></textarea><br/>
+      		    <textarea class="form-control" rows="10" id="summernote" name="body"></textarea><br/>
       		    <label for="validationPublishDate">Publish Date</label><br/>
       		    <input type="date" class="form-control" id="validationPublishDate" name="publish_date" placeholder="Publish Date" size="50"><br/>
       		    <label for="validationRemovalDate">Removal Date</label><br/>
       		    <input type="date" class="form-control" id="validationRemovalDate" name="removal_date" placeholder="Removal Date" size="50"><br/>
             </div>
             <div class="modal-footer">
-            <button type="submit" class="btn btn-dark" style="background-color:#44277C; color:white"><i class="fas fa-plus"></i> Add</button>
-            <button type="button" class="btn btn-dark" data-dismiss="modal" style="background-color:#44277C; color:white; border-radius:10px; border-color:#44277C"><i class="fas fa-times"></i> Cancel</button>
+              <button type="button" class="btn btn-light" data-dismiss="modal" style="color:#44277C; border-radius:10px; border-color:#44277C"><i class="fas fa-times"></i> Cancel</button>
+              <button type="submit" class="btn btn-dark" style="background-color:#44277C; color:white; border-radius:10px;"><i class="fas fa-plus"></i> Add</button>
             </div>
           </div>
         </div>

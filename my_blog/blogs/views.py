@@ -23,10 +23,13 @@ def add_blog(request):
             blog.body= request.POST.get('body')
 
             #unless specified, date fields are set to default (publish date -> now(), removal_date -> None)
-            if request.POST.get('publish_date'):
-                blog.publish_date = request.POST.get('publish_date')
-            if request.POST.get('removal_date'):
-                blog.removal_date = request.POST.get('removal_date')
+            if request.POST.get('publish_date') and request.POST.get('removal_date') and request.POST.get('publish_date') > request.POST.get('removal_date'):
+                pass
+            else:
+                if request.POST.get('publish_date'):
+                    blog.publish_date = request.POST.get('publish_date')
+                if request.POST.get('removal_date'):
+                    blog.removal_date = request.POST.get('removal_date')
 
             #save the post
             blog.save()
@@ -68,10 +71,13 @@ def edit_blog(request, pk=None):
             blog.body= request.POST.get('body')
 
             #unless specified, date fields will stay same
-            if request.POST.get('publish_date'):
-                blog.publish_date = request.POST.get('publish_date')
-            if request.POST.get('removal_date'):
-                blog.removal_date = request.POST.get('removal_date')
+            if request.POST.get('publish_date') and request.POST.get('removal_date') and request.POST.get('publish_date') > request.POST.get('removal_date'):
+                pass
+            else:
+                if request.POST.get('publish_date'):
+                    blog.publish_date = request.POST.get('publish_date')
+                if request.POST.get('removal_date'):
+                    blog.removal_date = request.POST.get('removal_date')
 
             #save the post
             blog.save()
@@ -95,9 +101,6 @@ def search(request):
     removal_date_min_query = request.GET.get("removal_date_min")
     removal_date_max_query = request.GET.get("removal_date_max")
 
-    #after clicking search button, we save the queries in a dictionary to keep them in their fields
-    ql = {"title":title_query, "abstract":abstract_query, "publish_date_min":publish_date_min_query, "publish_date_max":publish_date_max_query, "removal_date_min": removal_date_min_query, "removal_date_max": removal_date_max_query}
-
     #filter the posts according to the queries
     if title_query != '' and title_query is not None:
         qs = qs.filter(title__icontains=title_query)
@@ -105,19 +108,38 @@ def search(request):
     if abstract_query != '' and abstract_query is not None:
         qs = qs.filter(abstract__icontains=abstract_query)
 
-    if publish_date_min_query != '' and publish_date_min_query is not None:
+    if publish_date_min_query != '' and publish_date_min_query is not None and publish_date_max_query == '':
         qs = qs.filter(publish_date__range=[publish_date_min_query, "9999-12-31"])
 
     #added 1 day to the upper end of date range, because upper end is exclusive
-    if publish_date_max_query != '' and publish_date_max_query is not None:
+    if publish_date_max_query != '' and publish_date_max_query is not None and publish_date_min_query == '':
         qs = qs.filter(publish_date__range=["1000-01-01", datetime.strptime(publish_date_max_query, "%Y-%m-%d").date() + timedelta(days=1)])
 
-    if removal_date_min_query != '' and removal_date_min_query is not None:
+
+    if publish_date_min_query != '' and publish_date_max_query != '' and publish_date_min_query < publish_date_max_query:
+        qs = qs.filter(publish_date__range=[publish_date_min_query, datetime.strptime(publish_date_max_query, "%Y-%m-%d").date() + timedelta(days=1)])
+
+    else:
+        publish_date_min_query = ''
+        publish_date_max_query = ''
+
+    if removal_date_min_query != '' and removal_date_min_query is not None and removal_date_max_query == '':
         qs = qs.filter(removal_date__range=[removal_date_min_query, "9999-12-31"])
 
     #added 1 day to the upper end of date range, because upper end is exclusive
-    if removal_date_max_query != '' and removal_date_max_query is not None:
+    if removal_date_max_query != '' and removal_date_max_query is not None and removal_date_min_query == '':
         qs = qs.filter(removal_date__range=["1000-01-01", datetime.strptime(removal_date_max_query, "%Y-%m-%d").date() + timedelta(days=1)])
+
+
+    if removal_date_min_query != '' and removal_date_max_query != '' and removal_date_min_query < removal_date_max_query:
+        qs = qs.filter(publish_date__range=[publish_date_min_query, datetime.strptime(publish_date_max_query, "%Y-%m-%d").date() + timedelta(days=1)])
+
+    else:
+        removal_date_min_query = ''
+        removal_date_max_query = ''
+
+    #after clicking search button, we save the queries in a dictionary to keep them in their fields
+    ql = {"title":title_query, "abstract":abstract_query, "publish_date_min":publish_date_min_query, "publish_date_max":publish_date_max_query, "removal_date_min": removal_date_min_query, "removal_date_max": removal_date_max_query}
 
     #this dictionary will be passed to posts.html (and homepage.html since posts.html extends it)
     context = {
